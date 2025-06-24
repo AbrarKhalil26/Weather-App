@@ -4,7 +4,6 @@ const searchInput = document.getElementById("search-input");
 const cardsWeather = document.getElementById("cards-weather");
 let blackBox = ``;
 
-
 const utils = {
   // Get current date in YYYY-MM-DD format
   getCurrentDate: function () {
@@ -49,73 +48,50 @@ const utils = {
   },
 };
 
-async function handleActions(path, errorMessage, action) {
+async function getWeatherAndForecast(query) {
+  const currentLocation = await utils.getCurrentLocation();
+  displayLoading();
   try {
-    displayLoading();
-    const response = await fetch(path);
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(
-        `Something went wrong for get ${errorMessage}: ${response.status}`
-      );
-    }
-    if (!data.error) {
-      action(data);
-    }
+    const weather = await fetch(`${apiUrl}current.json?key=${apiKey}&q=${query || currentLocation}&dt=${utils.getCurrentDate()}`);
+    const forecast = await fetch(`${apiUrl}forecast.json?key=${apiKey}&q=${query || currentLocation}&days=3`);
+    const weatherData = await weather.json();
+    const forecastData = await forecast.json();
+
+    if (!weather.ok || !forecast.ok) throw new Error(`Error fetching weather or forecast data: ${weather.status}, ${forecast.status}`);
+    if (!weatherData.error && !forecastData.error) displayWeatherAndForecast(weatherData, forecastData);
+    else displayNoData();
+
   } catch (error) {
-    console.error(
-      `An error occurred while fetching the ${errorMessage}:`,
-      error
-    );
-  }
-  finally {
+    console.error("An error occurred while getting weather and forecast:", error);
+    displayNoData();
+  } finally {
     if (cardsWeather.innerHTML.includes('<div class="spinner"></div>')) {
       cardsWeather.innerHTML = "";
     }
   }
 }
 
-async function getWeatherAndForecast(query) {
-  await getWeather(query);
-  await getForecast(query);
-}
-
-async function getWeather(query) {
-  const currentLocation = await utils.getCurrentLocation();
-  await handleActions(
-    `${apiUrl}current.json?key=${apiKey}&q=${query || currentLocation}&dt=${utils.getCurrentDate()}`,
-    "weather data",
-    displayWeather
-  );
-}
-
-async function getForecast(query) {
-  const country = await utils.getCurrentLocation();
-  await handleActions(
-    `${apiUrl}forecast.json?key=${apiKey}&q=${query || country}&days=3`,
-    "forecast data",
-    displayForecast
-  );
-}
-
 async function getSearch() {
-  await handleActions(
-    `${apiUrl}search.json?key=${apiKey}&q=${searchInput.value}`,
-    "search data",
-    (data) => {
-      if (data.length === 0) {
-        displayNoData();
-      } else {
-        getWeather(`id:${data[0].id}`);
-        getForecast(`id:${data[0].id}`);
-      }
+  try {
+    const response = await fetch(`${apiUrl}search.json?key=${apiKey}&q=${searchInput.value}`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(`Error fetching search data: ${response.status}`);
+    if (data.length === 0) {
+      displayNoData();
+    } else {
+      getWeatherAndForecast(`id:${data[0].id}`);
     }
-  );
+  } catch (error) {
+    console.error("An error occurred while getting search input:", error);
+  }
 }
+searchInput.addEventListener("change", getSearch);
 
-function displayWeather(data) {
-  const { name, localtime } = data.location;
-  const { temp_c, condition, wind_kph, wind_dir, humidity } = data.current;
+function displayWeatherAndForecast(dataWeather, dataForecast) {
+  const { name, localtime } = dataWeather.location;
+  const { temp_c, condition, wind_kph, wind_dir, humidity } =
+    dataWeather.current;
+  const { forecastday } = dataForecast.forecast;
 
   blackBox = `<div class="col-lg-4 px-0">
                 <div class="card border-0 rounded-lg-start">
@@ -153,10 +129,7 @@ function displayWeather(data) {
                   </div>
                 </div>
               </div>`;
-}
 
-function displayForecast(data) {
-  const { forecastday } = data.forecast;
   for (let i = 1; i < forecastday.length; i++) {
     const { date, day } = forecastday[i];
     const { maxtemp_c, mintemp_c, condition } = day;
@@ -187,18 +160,9 @@ function displayNoData() {
                             </div>`;
 }
 
-function displayLoading(){
+function displayLoading() {
   cardsWeather.innerHTML = `<div class="d-flex justify-content-center my-5"><div class="spinner"></div></div>
   `;
 }
 
-async function main() {
-  try {
-    await getWeatherAndForecast();
-    searchInput.addEventListener("change", getSearch);
-  } catch (error) {
-    console.error("An error occurred in the main function:", error);
-  }
-}
-
-main();
+getWeatherAndForecast();
