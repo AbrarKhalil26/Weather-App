@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="./css/all.min.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="min-vh-100">
+      <nav class="navbar navbar-expand-md">
+        <div class="container-fluid container-md my-4 px-xl-5">
+          <a
+            class="navbar-brand text-light d-flex align-items-center gap-2"
+            href="#"
+          >
+            <img src="/images/weather.png" alt="Weather" class="logo" />
+            <div class="title-logo">
+              <p class="m-0 fw-bold base">Weather</p>
+              <p class="m-0">tagline goes here</p>
+            </div>
+          </a>
+          <button
+            class="navbar-toggler border-0 p-3"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="collapse navbar-collapse flex-grow-0 mt-4 mt-lg-0" id="navbarNav">
+            <ul class="navbar-nav d-flex flex-md-row justify-content-center justify-content-lg-start align-items-center gap-2 gap-md-0">
+              <li class="nav-item mx-md-1 py-lg-0 py-2 text-center text-lg-start">
+                <a
+                  class="nav-link px-md-3 px-lg-4 py-1 active"
+                  aria-current="page"
+                  href="#"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item mx-md-1 py-lg-0 py-2 text-center text-lg-start">
+                <a class="nav-link px-md-3 px-lg-4 py-1" href="#">News</a>
+              </li>
+              <li class="nav-item mx-md-1 py-lg-0 py-2 text-center text-lg-start">
+                <a class="nav-link px-md-3 px-lg-4 py-1" href="#"
+                  >Live Cameras</a
+                >
+              </li>
+              <li class="nav-item mx-md-1 py-lg-0 py-2 text-center text-lg-start">
+                <a class="nav-link px-md-3 px-lg-4 py-1" href="#">Photos</a>
+              </li>
+              <li class="nav-item mx-md-1 py-lg-0 py-2 text-center text-lg-start">
+                <a class="nav-link px-md-3 px-lg-4 py-1" href="#">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <main class="content py-5">
+        <div class="container-fluid container-md my-4 px-xl-5">
+          <header class="search d-flex rounded-pill p-1 mb-5">
+            <input
+              type="text"
+              class="py-2 px-3 flex-grow-1 border-0 rounded-pill bg-transparent"
+              placeholder="Find your location..."
+              aria-label="Search for a city"
+              id="search-input"
+            />
+            <button class="btn btn-primary rounded-pill" type="submit">
+              Find
+            </button>
+          </header>
+          <section class="cards-weather">
+            <div class="row px-3" id="cards-weather"></div>
+          </section>
+        </div>
+      </main>
+      <footer>
+        <div class="container-fluid container-md px-xl-5 py-5">
+          <div class="row g-3 mb-4">
+            <div class="col-lg-8">
+              <section class="subscription d-flex rounded-pill p-1">
+                <input
+                  type="text"
+                  class="py-2 px-3 flex-grow-1 border-0 rounded-pill bg-transparent"
+                  placeholder="Enter your email to subscribe..."
+                  aria-label="Search for a city"
+                  id="search-input"
+                />
+                <button class="btn btn-primary rounded-pill py-3 px-4" type="submit">
+                  Subscribe
+                </button>
+              </section>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center justify-content-lg-center">
+              <section class="socials d-flex gap-1">
+                <a
+                  href="#"
+                  class="text-decoration-none fs-5"
+                  aria-label="Facebook"
+                >
+                  <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a
+                  href="#"
+                  class="text-decoration-none fs-5"
+                  aria-label="Twitter"
+                >
+                  <i class="fa-brands fa-twitter"></i>
+                </a>
+                <a
+                  href="#"
+                  class="text-decoration-none fs-5"
+                  aria-label="Google Plus"
+                >
+                  <i class="fa-brands fa-google-plus-g"></i>
+                </a>
+                <a
+                  href="#"
+                  class="text-decoration-none fs-5"
+                  aria-label="Pinterest"
+                >
+                  <i class="fa-brands fa-pinterest-p"></i>
+                </a>
+              </section>
+            </div>
+          </div>
+          <p class="text-white-50 small ms-2">Copyright 2025. Designed by Abrar. All rights reserved</p>
+        </div>
+      </footer>
+    </main>
+
+    <!-- JS -->
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
+</html>
